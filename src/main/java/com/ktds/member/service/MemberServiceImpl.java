@@ -9,7 +9,7 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	private CommunityDao communityDao;
 
-	public void setMemberDao(MemberDao memberDao) {
+	public void se tMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
 	}
 	
