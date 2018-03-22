@@ -25,8 +25,6 @@ public class MypageController {
 			this.communityService = communityService;
 		}
 
-
-
 		public void setMemberService(MemberService memberService) {
 			this.memberService = memberService;
 		}

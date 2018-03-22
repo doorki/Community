@@ -8,6 +8,8 @@ public interface CommunityService {
 
 	public List<CommunityVO> getAll();
 
+	public boolean createCommunity(CommunityVO communityVO);  
+	
 	public CommunityVO getOne(int id);
 
 	public boolean incrementVC(int id);
@@ -18,7 +20,6 @@ public interface CommunityService {
 
 	public void incrementRC(int id);
 
-	public boolean createCommunity(CommunityVO communityVO);
 
 	public boolean deleteCommunity(int id);
 	

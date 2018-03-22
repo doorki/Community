@@ -4,7 +4,21 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <!-- 		인터페이스의 이름작성 -->
   <mapper namespace="MemberDao">				<!--vo에 저장 하는값 result type  -->
-  
+  		<select id="selectCountMemberNickname"
+  				parameterType ="string"
+  				resultType="_int">
+  			SELECT  COUNT(ID)
+ 			FROM		MEMBER
+ 			WHERE	NICKNAME = #{nickname}
+  		
+  		</select>
+ 		<select id= "selectCountMemberEmail" 
+ 				parameterType ="string" 
+ 				resultType="_int">
+ 			SELECT  COUNT(ID)
+ 			FROM		MEMBER
+ 			WHERE	EMAIL = #{email}
+ 		</select>
  		<insert id="insertMember" parameterType="MemberVO">
  			INSERT INTO MEMBER(
  				ID
@@ -12,25 +26,36 @@
  				,NICKNAME
  				,PASSWORD
  				,REGIST_DATE
+ 				,SALT
  			)
  			VALUES (
  				MEMBER_ID_SEQ.NEXTVAL
  				,#{email}
  				,#{nickname}
  				,#{password}
-				,SYSDATE 				
+				,SYSDATE
+				,#{salt} 				
  			)
  		</insert>
+
+ 		<select id="selectSalt" parameterType ="string" resultType="string">
+ 			SELECT  NVL(SALT,'')
+			FROM		MEMBER
+			WHERE   EMAIL = #{email}
+ 		</select>
+ 		
+ 		
+ 		
  		<select id="selectMember" parameterType="MemberVO" resultType="MemberVO">
- 			SELECT ID
+ 			SELECT   ID
  					, EMAIL
  					,NICKNAME
  					,REGIST_DATE registDate
+ 					,SALT
  			FROM		MEMBER
  			WHERE EMAIL = #{email}
  			AND PASSWORD =#{password}
  		</select>
- 		
  		<delete id ="deleteMember" parameterType="_int" >
   		DELETE
   		FROM		MEMBER

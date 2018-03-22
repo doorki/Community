@@ -36,6 +36,8 @@
 				</li>
 			</c:if>	
 			
-			<li>Community</li>
+			<li>
+				<a href="<c:url value="/"/>">Community</a>
+			</li>
 		</ul>
 	</div>

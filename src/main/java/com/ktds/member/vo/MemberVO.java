@@ -10,8 +10,15 @@ public class MemberVO {
 	@NotEmpty(message = "PassWord 필수입력 값 입니다.")
 	private String password;
 	private String email;
-	private String registerDate;
+	private String registDate;
+	private String salt;
 	
+	public String getSalt() {
+		return salt;
+	}
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -36,10 +43,10 @@ public class MemberVO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getRegisterDate() {
-		return registerDate;
+	public String getRegistDate() {
+		return registDate;
 	}
-	public void setRegisterDate(String registerDate) {
-		this.registerDate = registerDate;
+	public void setRegistDate(String registDate) {
+		this.registDate = registDate;
 	}
 }

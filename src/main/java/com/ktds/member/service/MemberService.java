@@ -8,5 +8,6 @@ public interface MemberService {
 	public MemberVO readMember(MemberVO memberVO);
 	public boolean deleteMember(int id);
 	public boolean leaveMember(int id, String deleteFlag);
-	
+	public boolean readCountMemberEmail(String email);
+	public boolean readCountMemberNickname(String nickname);
 }
