@@ -15,9 +15,17 @@ public class ReplyDaoImplForOracle extends SqlSessionDaoSupport implements Reply
 
 	@Override
 	public int insertReply(ReplyVO replyVO) {
+	
 		int sequence = getSqlSession().selectOne("ReplyDao.nextValue");
+		System.out.println(sequence);
 		replyVO.setId(sequence);
+		
 		return getSqlSession().insert("ReplyDao.insertReply", replyVO);
+	}
+
+	@Override
+	public ReplyVO selectOneReply(int replyId) {
+		return getSqlSession().selectOne("ReplyDao.selectOneReply", replyId);
 	}
 
 		

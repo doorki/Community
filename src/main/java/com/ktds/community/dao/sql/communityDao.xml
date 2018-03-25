@@ -21,28 +21,43 @@
   			<result column="NICKNAME" property="nickname"/>
   			<result column="REGIST_DATE" property="registDate"/>
   		</association>
-  	</resultMap>
-  	<!-- <select id="selectAll" resultType="com.ktds.community.vo.CommunityVO" > 인터페이스의 메소드의 이름을 적는다 -->
-  	<select id="selectAll" resultMap="CommunityVOMap">
   		
-  		SELECT	C.ID
-  				,C.TITLE
-  				,C.BODY
-  				,C.USER_ID
-  				,TO_CHAR(C.WRITE_DATE, 'YYYY-MM-DD HH24-MI-SS') WRITE_DATE
-  				,C.VIEW_COUNT
-  				,C.RECOMMEND_COUNT
-  				,C.REQUEST_IP
-  				,C.DISPLAY_FILE_NAME
-                ,M.ID M_ID
-                ,M.EMAIL
-                ,M.NICKNAME
-                ,M.REGIST_DATE
-  		FROM 	COMMUNITY C
-  				,MEMBER M
-  		WHERE   C.USER_ID = M.ID(+)
-  		ORDER 	BY C.ID DESC
-		
+  	</resultMap>
+  	<select id ="selectCountAll" resultType="_int" parameterType="CommunitySearchVO">
+  			SELECT	COUNT(C.ID)
+			FROM 	COMMUNITY C
+	  				,MEMBER M
+	  		WHERE   C.USER_ID = M.ID(+)
+  	</select>
+  	<!-- <select id="selectAll" resultType="com.ktds.community.vo.CommunityVO" > 인터페이스의 메소드의 이름을 적는다 -->
+  	<select id="selectAll" resultMap="CommunityVOMap" parameterType="CommunitySearchVO">
+  		SELECT	*
+  		FROM		(
+			  		SELECT	ROWNUM RNUM
+			  				, C.*
+			  		FROM		(
+			  		
+				  		SELECT	C.ID
+				  				,C.TITLE
+				  				,C.BODY
+				  				,C.USER_ID
+				  				,TO_CHAR(C.WRITE_DATE, 'YYYY-MM-DD HH24-MI-SS') WRITE_DATE
+				  				,C.VIEW_COUNT
+				  				,C.RECOMMEND_COUNT
+				  				,C.REQUEST_IP
+				  				,C.DISPLAY_FILE_NAME
+				                ,M.ID M_ID
+				                ,M.EMAIL
+				                ,M.NICKNAME
+				                ,M.REGIST_DATE
+				  		FROM 	COMMUNITY C
+				  				,MEMBER M
+				  		WHERE   C.USER_ID = M.ID(+) <!-- 데이터가 존재하지 않는 쪽에다가 붙임 조인!-->
+				  		ORDER 	BY C.ID DESC
+							) C
+					WHERE	ROWNUM <![CDATA[<=]]> #{endNumber}
+				) 
+		WHERE 	RNUM >= #{startNumber}
   	</select>
   
   	<insert id="insertCommunity" parameterType="CommunityVO">

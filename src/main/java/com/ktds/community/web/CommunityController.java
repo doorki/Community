@@ -2,7 +2,6 @@ package com.ktds.community.web;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ktds.community.constants.Member;
 import com.ktds.community.service.CommunityService;
-import com.ktds.community.service.CommunityServiceImpl;
+import com.ktds.community.vo.CommunitySearchVO;
 import com.ktds.community.vo.CommunityVO;
 import com.ktds.member.vo.MemberVO;
 import com.ktds.util.DownloadUtil;
+
+import io.github.seccoding.web.pager.explorer.PageExplorer;
 
 @Controller
 public class CommunityController {
@@ -34,7 +35,8 @@ public class CommunityController {
 	}
 
 	@RequestMapping("/")
-	public ModelAndView viewListPage(HttpSession session) {
+	public ModelAndView viewListPage(CommunitySearchVO communitySearchVO, HttpSession session) {
+	
 		ModelAndView view = new ModelAndView();
 
 		// if (session.getAttribute(Member.USER) == null) {
@@ -44,9 +46,10 @@ public class CommunityController {
 
 		view.setViewName("community/list");
 
-		List<CommunityVO> communityList = communityService.getAll();
+		PageExplorer pageExplorer = communityService.getAll(communitySearchVO);
 
-		view.addObject("communityList", communityList);
+		view.addObject("pageExplorer", pageExplorer);
+	
 		return view;
 	}
 

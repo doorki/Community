@@ -8,7 +8,7 @@
   				parameterType ="string"
   				resultType="_int">
   			SELECT  COUNT(ID)
- 			FROM		MEMBER
+ 			FROM	MEMBER
  			WHERE	NICKNAME = #{nickname}
   		
   		</select>
@@ -16,7 +16,7 @@
  				parameterType ="string" 
  				resultType="_int">
  			SELECT  COUNT(ID)
- 			FROM		MEMBER
+ 			FROM	MEMBER
  			WHERE	EMAIL = #{email}
  		</select>
  		<insert id="insertMember" parameterType="MemberVO">
@@ -29,7 +29,7 @@
  				,SALT
  			)
  			VALUES (
- 				MEMBER_ID_SEQ.NEXTVAL
+ 				MEMBER_ID_SEQ.NEXTVAL<!-- 시험 -->
  				,#{email}
  				,#{nickname}
  				,#{password}
@@ -40,18 +40,18 @@
 
  		<select id="selectSalt" parameterType ="string" resultType="string">
  			SELECT  NVL(SALT,'')
-			FROM		MEMBER
+			FROM	MEMBER
 			WHERE   EMAIL = #{email}
  		</select>
  		
  		
  		
  		<select id="selectMember" parameterType="MemberVO" resultType="MemberVO">
- 			SELECT   ID
- 					, EMAIL
- 					,NICKNAME
- 					,REGIST_DATE registDate
- 					,SALT
+			SELECT 		  ID
+	 					,EMAIL
+	 					,NICKNAME
+	 					,REGIST_DATE
+	 					,SALT
  			FROM		MEMBER
  			WHERE EMAIL = #{email}
  			AND PASSWORD =#{password}

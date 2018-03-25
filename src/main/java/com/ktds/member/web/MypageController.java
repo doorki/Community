@@ -46,8 +46,8 @@ public class MypageController {
 		public String doDeleteMyCommunitiesAction(
 						HttpSession session, @RequestParam List<Integer> delete) {
 
-			MemberVO member = (MemberVO) session.getAttribute(Member.USER);
-			communityService.deleteCommunities(delete, member.getId());
+//			MemberVO member = (MemberVO) session.getAttribute(Member.USER);
+//			communityService.deleteCommunities(delete, member.getId());
 //			for( int index : delete ) {
 //				System.out.println(index);
 //			}

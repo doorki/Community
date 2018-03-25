@@ -31,10 +31,6 @@ public class CommunityVO {
 	private MemberVO memberVO; //작성자의 정보 테이블을 조인하면 vo도 조인해야함.
 
 
-
-
-
-
 	public MemberVO getMemberVO() {
 		return memberVO;
 	}

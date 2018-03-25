@@ -20,8 +20,7 @@
 				<mvc:exclude-mapping path = "/login"/>
 				<mvc:exclude-mapping path = "/regist"/>
 				<mvc:exclude-mapping path = "/static/**"/>
-				<mvc:exclude-mapping path = "/api/exists/email"/>
-				<mvc:exclude-mapping path = "/api/exists/nickname"/>
+				<mvc:exclude-mapping path = "/api/exists/**"/>
 				<bean 	id="sessionInterceptor" 
 						class="com.ktds.community.interceptors.SessionInterceptor"/>
 		</mvc:interceptor>

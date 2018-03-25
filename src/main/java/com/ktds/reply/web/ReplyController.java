@@ -25,25 +25,35 @@ public class ReplyController {
 		this.replyService = replyService;
 	}
 	
-		@RequestMapping("/api/reply/{communityId}")
+		@RequestMapping(value="/api/reply/{communityId}", method = RequestMethod.GET)
+		
 		@ResponseBody
 		public List<ReplyVO> getAllReplies(@PathVariable int communityId){
 			return replyService.readAllReplies(communityId);
-}
+		
+		}
+	
 		@RequestMapping(value="/api/reply/{communityId}", method = RequestMethod.POST)
 		@ResponseBody
 		public Map<String, Object> createReply(@PathVariable int communityId,
 				HttpSession session,
 				ReplyVO replyVO){
+			
 			MemberVO member = (MemberVO) session.getAttribute(Member.USER);
 			replyVO.setUserId(member.getId());
 			replyVO.setCommunityId(communityId);
 			
-			boolean isSuccess = replyService.createReply(replyVO);
+			boolean isSuccess = replyService.createReply(replyVO); //id값이셋팅되있음.
+			
+			ReplyVO newReply = null;
+			if (isSuccess) {
+				newReply = replyService.readOneReply(replyVO.getId());
+			}
 			
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("status", isSuccess);
-			result.put("reply", replyVO);
+			result.put("reply", newReply);
+			
 			return result;
 		}
 }
