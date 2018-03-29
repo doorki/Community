@@ -9,15 +9,19 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ktds.actionhistory.vo.ActionHistory;
+import com.ktds.actionhistory.vo.ActionHistoryVO;
 import com.ktds.community.constants.Member;
 import com.ktds.community.service.CommunityService;
 import com.ktds.member.service.MemberService;
@@ -35,8 +39,9 @@ public class MemberController {
 	}
 	public void setCommunityService(CommunityService communityService) {
 		this.communityService = communityService;
-	}				 //ajax 쓴다! 
+	}				
 	
+						//ajax 쓴다! 
 	@RequestMapping("/api/exists/email")
 	@ResponseBody // Json 으로 바꿔서 보내주는 역할. 
 	public Map<String, Boolean> apiIsExistsEmail(@RequestParam String email){
@@ -76,32 +81,57 @@ public class MemberController {
 		return "member/regist";
 	}
 	@RequestMapping(value ="/regist", method= RequestMethod.POST)
-	public ModelAndView doRegistPage(@ModelAttribute("registForm") @Valid MemberVO memberVO,Errors errors)
-		{
+	public String doRegistPage(@ModelAttribute("registForm") 
+									 @Valid MemberVO memberVO,Errors errors,
+									 HttpServletRequest request,
+									 Model model){
 		if (errors.hasErrors()) {
-			return new ModelAndView("member/regist");
-			
+			return "member/regist";
 		}
+		//request를 사용해서 꺼내옴.
+		ActionHistoryVO history = (ActionHistoryVO) request.getAttribute("actionHistory");
+		history.setReqType(ActionHistory.ReqType.MEMBER);
+		
 		if( memberService.createMember(memberVO) ) {
+			// "Regist: Email(%s), NickName(%s), Result(%s)";
+			String log= String.format(ActionHistory.Log.REGIST,
+					memberVO.getEmail(),memberVO.getNickname(),"true");
 			
-			return new ModelAndView("redirect:/login");
+			history.setLog(log);
 			
+			model.addAttribute("actionHistory",history);
+			
+			return "redirect:/login";
 		}
-			return new ModelAndView("member/regist");
+				//"Regist: Email(%s), NickName(%s), Result(%s)";
+			String log= String.format(ActionHistory.Log.REGIST,
+					memberVO.getEmail(),memberVO.getNickname(),"false");
+			
+			history.setLog(log);
+			
+			model.addAttribute("actionHistory",history);
+			
+			return "redirect:/regist";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String doLoginAction(@ModelAttribute("loginForm") @Valid MemberVO memberVO, 
-					Errors errors, HttpServletRequest request) {
-		HttpSession session = request.getSession();
+					Errors errors, HttpSession session, @RequestAttribute ActionHistoryVO actionHistory) {
+		MemberVO member = (MemberVO) session.getAttribute(Member.USER);
+		
+		actionHistory.setReqType(ActionHistory.ReqType.MEMBER);
+		
+		String log = String.format(ActionHistory.Log.LOGIN, memberVO.getEmail());
+		actionHistory.setLog(log);
 		
 		MemberVO loginMember= memberService.readMember(memberVO);
 		if (loginMember != null) {
 			session.setAttribute(Member.USER, loginMember);
 			return "redirect:/";
 		}
+	
 		return "redirect:/login";
-		}
+	}
 	/*	if( memberVO.getId() == null || memberVO.getId().length() == 0 ) {
 			session.setAttribute("status", "emptyId");
 			return new ModelAndView("redirect:/login");
@@ -147,10 +177,17 @@ public class MemberController {
 //
 	
 	@RequestMapping("/logout")
-	public String doLogoutAction(MemberVO id, HttpSession session) {
+	public String doLogoutAction(MemberVO id, HttpSession session, @RequestAttribute ActionHistoryVO actionHistory) {
 		//삭제는 하나의 키만 지우는 것
 		//세션 소멸 - 세션자체를 날림
-			session.invalidate();
+		MemberVO member = (MemberVO) session.getAttribute(Member.USER);
+		actionHistory.setReqType(ActionHistory.ReqType.MEMBER);
+		
+		String log = String.format(ActionHistory.Log.LOGOUT, member.getEmail());
+		
+		actionHistory.setLog(log);
+		
+		session.invalidate();
 			
 		return "redirect:/login";
 		

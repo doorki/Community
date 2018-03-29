@@ -149,6 +149,7 @@ $().ready(function(){
 		<c:if test="${sessionScope.__USER__.id == community.memberVO.id}">
 		
 		<a href="<c:url value="/delete/${community.id}"/>">삭제하기</a>
+		
 		<a href="<c:url value="/modify/${community.id}"/>">수정하기</a>
 		
 	

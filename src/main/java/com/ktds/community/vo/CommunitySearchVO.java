@@ -5,13 +5,16 @@ import io.github.seccoding.web.pager.annotations.StartRow;
 
 public class CommunitySearchVO {
 	
-	private int pageNo;
+	private int pageNo = -1; // 페이지 값이 넘어왔는지 안넘어 왔는지 알고 싶어서 -1을 줌.
 	
 	@StartRow
 	private int startNumber;
 	
 	@EndRow
 	private int endNumber;
+	
+	private int searchType;
+	private String searchKeyword;
 	
 	public int getPageNo() {
 		return pageNo;
@@ -31,6 +34,18 @@ public class CommunitySearchVO {
 	}
 	public void setEndNumber(int endNumber) {
 		this.endNumber = endNumber;
+	}
+	public int getSearchType() {
+		return searchType;
+	}
+	public void setSearchType(int searchType) {
+		this.searchType = searchType;
+	}
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
 	}
 	
 }
