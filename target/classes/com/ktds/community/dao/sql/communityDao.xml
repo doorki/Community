@@ -21,12 +21,12 @@
   			<result column="NICKNAME" property="nickname"/>
   			<result column="REGIST_DATE" property="registDate"/>
   		</association>
-  		
+
   	</resultMap>
   	<select id ="selectCountAll" resultType="_int" parameterType="CommunitySearchVO">
   			SELECT	COUNT(C.ID)
-			FROM 	COMMUNITY C
-	  				,MEMBER M
+			  FROM 	COMMUNITY C
+	  				  ,MEMBER M
 	  		WHERE   C.USER_ID = M.ID(+)
 	  		AND		WRITE_DATE <![CDATA[ <= ]]> SYSDATE
 	  		AND		WRITE_DATE >= ADD_MONTHS(SYSDATE, -1)
@@ -40,18 +40,18 @@
 				<when test="searchType == 3">
 			AND		( C.TITLE LIKE '%' || #{searchKeyword} || '%'
 			OR		C.BODY LIKE '%' || #{searchKeyword} || '%' )
-				</when> 
+				</when>
 				<when test="searchType == 4">
-			AND		M.NICKNAME LIKE '%' || #{searchKeyword} || '%'	
+			AND		M.NICKNAME LIKE '%' || #{searchKeyword} || '%'
 				</when>
 				<when test="searchType == 5">
-			AND		M.EMAIL LIKE '%' || #{searchKeyword} || '%'		
+			AND		M.EMAIL LIKE '%' || #{searchKeyword} || '%'
 				</when>
 				<when test="searchType == 6">
-			AND		C.DISPLAY_FILE_NAME LIKE '%' || #{searchKeyword} || '%'		
+			AND		C.DISPLAY_FILE_NAME LIKE '%' || #{searchKeyword} || '%'
 				</when>
 				<when test="searchType == 7">
-			AND		C.DISPLAY_FILE_NAME LIKE '%.' || #{searchKeyword}		
+			AND		C.DISPLAY_FILE_NAME LIKE '%.' || #{searchKeyword}
 				</when>
 		</choose>
   	</select>
@@ -62,7 +62,7 @@
 			  		SELECT	ROWNUM RNUM
 			  				, C.*
 			  		FROM		(
-			  		
+
 				  		SELECT	C.ID
 				  				,C.TITLE
 				  				,C.BODY
@@ -80,7 +80,7 @@
 				  				,MEMBER M
 				  		WHERE   C.USER_ID = M.ID(+) <!-- 데이터가 존재하지 않는 쪽에다가 붙임 조인!-->
 		  				AND		WRITE_DATE <![CDATA[ <= ]]> SYSDATE
-	  					AND		WRITE_DATE >= ADD_MONTHS(SYSDATE, -1)
+	  					AND		WRITE_DATE >= ADD_MONTHS(SYSDATE, -1) <!-- 한달전 sysdate에다가 -1을 더해준다.-->
 				  		<choose>
 								<when test="searchType == 1">
 							AND		C.TITLE LIKE '%' || #{searchKeyword} || '%'
@@ -91,27 +91,27 @@
 								<when test="searchType == 3">
 							AND		( C.TITLE LIKE '%' || #{searchKeyword} || '%'
 							OR		C.BODY LIKE '%' || #{searchKeyword} || '%' )
-								</when> 
+								</when>
 								<when test="searchType == 4">
-							AND		M.NICKNAME LIKE '%' || #{searchKeyword} || '%'	
+							AND		M.NICKNAME LIKE '%' || #{searchKeyword} || '%'
 								</when>
 								<when test="searchType == 5">
-							AND		M.EMAIL LIKE '%' || #{searchKeyword} || '%'		
+							AND		M.EMAIL LIKE '%' || #{searchKeyword} || '%'
 								</when>
 								<when test="searchType == 6">
-							AND		C.DISPLAY_FILE_NAME LIKE '%' || #{searchKeyword} || '%'		
+							AND		C.DISPLAY_FILE_NAME LIKE '%' || #{searchKeyword} || '%'
 								</when>
 								<when test="searchType == 7">
-							AND		C.DISPLAY_FILE_NAME LIKE '%.' || #{searchKeyword}		
+							AND		C.DISPLAY_FILE_NAME LIKE '%.' || #{searchKeyword}
 								</when>
 						</choose>
 				  		ORDER 	BY C.ID DESC
 							) C
 					WHERE	ROWNUM <![CDATA[<=]]> #{endNumber}
-				) 
+				)
 		WHERE 	RNUM >= #{startNumber}
   	</select>
-  
+
   	<insert id="insertCommunity" parameterType="CommunityVO">
   		INSERT INTO COMMUNITY(
   			ID
@@ -135,14 +135,14 @@
 		 ,#{requestIp}
 		 ,#{displayFilename}
   		)
-  	
   	</insert>
-  	
+
   	<update id="incrementViewCount" parameterType="_int">
 		UPDATE	COMMUNITY
 		SET		VIEW_COUNT = VIEW_COUNT + 1
 		WHERE	ID = #{id}
   	</update>
+
   	<update id="incrementRecommendCount" parameterType="_int">
 		UPDATE	COMMUNITY
 		SET		RECOMMEND_COUNT = RECOMMEND_COUNT + 1
@@ -191,16 +191,16 @@
   				</if>
   				,DISPLAY_FILE_NAME = #{displayFilename}
 		WHERE	ID = #{id}
-		AND		USER_ID = #{userId} 	
+		AND		USER_ID = #{userId}
  	</update>
-  	
+
   		<select id="selectMyCommunitiesCount" resultType="_int"
   		parameterType="_int">
 			SELECT	COUNT(id)
 			FROM		COMMUNITY
-			WHERE	USER_ID = #{userId} 		
+			WHERE	USER_ID = #{userId}
  		</select>
-  		
+
   		<select id ="selectMyCommunities" resultMap="CommunityVOMap"
   				parameterType="_int">
   		SELECT	C.ID
@@ -221,9 +221,9 @@
 	  		WHERE   C.USER_ID = M.ID
 			AND		C.USER_ID = #{userId}
 		</select>
-		
+
 		<delete id ="deleteCommunities" parameterType="map">
-			DELETE 
+			DELETE
 			FROM		COMMUNITY
 			WHERE	USER_ID = #{userId}
 			AND		ID IN

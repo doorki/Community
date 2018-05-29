@@ -26,7 +26,7 @@ public class ActionHistoryController {
 	}
 	
 	@RequestMapping("/admin/actionhistory")
-	public ModelAndView viewActionHistoryPage(ActionHistorySearchVO actionHistorySearchVO, HttpSession session)
+	public ModelAndView viewActionHistoryPage(ActionHistorySearchVO actionHistorySearchVO,HttpSession session)
 											{
 		
 		ModelAndView view = new ModelAndView();

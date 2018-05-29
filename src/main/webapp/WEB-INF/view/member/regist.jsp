@@ -19,20 +19,20 @@
 
 <script type="text/javascript">
 	$().ready(function(){
-		
+
 		$("#email").keyup(function(){
 			var value = $(this).val();
 			if(value != ""){
-				
+
 				//Ajax CAll //http://localhsot:8080/api/exists/email
-				//  GeT과 POST 지원 무조건 POST쓴다 
+				//  GeT과 POST 지원 무조건 POST쓴다
 																//파라미터 객체 리터럴 .
 				$.post("<c:url value="/api/exists/email"/>", {
 					email : value
 				} , function(response) {
-					
+
 					console.log(response.response);
-					
+
 					if( response.response) {
 						alert("작성한 이메일은 사용할 수 없습니다.");
 						$("#email").removeClass("valid");
@@ -41,7 +41,7 @@
 					else{
 						$("#email").removeClass("invalid");
 						$("#email").addClass("valid");
-				} 
+				}
 			});
 		}
 					else{
@@ -49,14 +49,14 @@
 						$(this).addClass("invalid");
 			}
 		});
-		
+
 				$("#nickname").keyup(function(){
 					var value = $(this).val();
 					if(value != ""){
 				$.post("<c:url value="/api/exists/nickname"/>",{
 					nickname : value  }, function(response){
 						console.log(response.response);
-						
+
 					if(response.response){
 						alert("작성한 닉네임이 이미 존재합니다.");
 						$("#nickname").removeClass("valid");
@@ -65,7 +65,7 @@
 					else{
 						$("#nickname").removeClass("invalid");
 						$("#nickname").addClass("valid");
-					}	
+					}
 					});
 				}
 			else{
@@ -73,7 +73,7 @@
 				$(this).addClass("invalid");
 			}
 		});
-		
+
 		$("#password").keyup(function(){
 			var value = $(this).val();
 			if(value != ""){
@@ -84,9 +84,9 @@
 				$(this).removeClass("invalid");
 				$(this).addClass("valid");
 			}
-			
+
 			var password = $("#password-confirm").val();
-			
+
 			if( value != password){
 				$(this).removeClass("valid");
 				$(this).addClass("invalid");
@@ -100,11 +100,11 @@
 				$("#password-confirm").addClass("valid");
 			}
 		});
-		
+
 		$("#password-confirm").keyup(function(){
 			var value = $(this).val();
 			var password = $("#password").val();
-			
+
 			if( value != password){
 				$(this).removeClass("valid");
 				$(this).addClass("invalid");
@@ -120,7 +120,7 @@
 		});
 
 		$("#registBtn").click(function(){
-			
+
 			if ( $("#email").val() == ""){
 				alert("이메일을 입력하세요");
 				$("#email").focus();
@@ -136,33 +136,33 @@
 				$.post("<c:url value="/api/exists/email"/>", {
 					email : $("#email").val()
 				} , function(response) {
-					
+
 					console.log(response.response);
-					
+
 					if( response.response) {
 						alert("작성한 이메일은 사용할 수 없습니다.");
 						$("#email").focus();
 						return false;
 					}
-					
+
 					if($("#nickname").val()==""){
 						alert("Nickname을 입력하세요!");
 						$("#nickname").focus();
 						$("#nickname").addClass("invalid");
 						return false;
-					}	
+					}
 					else{
 					$.post("<c:url value="/api/exists/nickname"/>", {
 						nickname : $("#nickname").val()
 					} , function(response) {
-						
+
 						console.log(response.response);
-						
+
 						if( response.response) {
 							alert("작성한 이메일은 사용할 수 없습니다.");
 							$("#nickname").focus();
 							return false;
-						
+
 					}
 				}
 					)};
@@ -185,7 +185,6 @@
 <body>
 
 	<div id="wrapper">
-		<jsp:include page="/WEB-INF/view/template/menu.jsp" />
 		<form:form modelAttribute="registForm">
 			<div>
 				<input type="email" id="email" placeholder="Email" name="email"

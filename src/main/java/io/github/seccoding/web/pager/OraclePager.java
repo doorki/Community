@@ -1,7 +1,7 @@
 package io.github.seccoding.web.pager;
 
 public class OraclePager extends Pager {
-	//오라클 이용 페이저 .
+
 	public OraclePager(int printArticle, int printPage) {
 		super(printArticle, printPage);
 	}

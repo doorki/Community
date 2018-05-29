@@ -7,13 +7,13 @@
   		<select id="selectCountMemberNickname"
   				parameterType ="string"
   				resultType="_int">
-  			SELECT  COUNT(ID)
+  		SELECT  COUNT(ID)
  			FROM	MEMBER
  			WHERE	NICKNAME = #{nickname}
-  		
+
   		</select>
- 		<select id= "selectCountMemberEmail" 
- 				parameterType ="string" 
+ 		<select id= "selectCountMemberEmail"
+ 				parameterType ="string"
  				resultType="_int">
  			SELECT  COUNT(ID)
  			FROM	MEMBER
@@ -34,7 +34,7 @@
  				,#{nickname}
  				,#{password}
 				,SYSDATE
-				,#{salt} 				
+				,#{salt}
  			)
  		</insert>
 
@@ -43,9 +43,9 @@
 			FROM	MEMBER
 			WHERE   EMAIL = #{email}
  		</select>
- 		
- 		
- 		
+
+
+
  		<select id="selectMember" parameterType="MemberVO" resultType="MemberVO">
 			SELECT 		  ID
 	 					,EMAIL
@@ -56,6 +56,7 @@
  			WHERE EMAIL = #{email}
  			AND PASSWORD =#{password}
  		</select>
+    
  		<delete id ="deleteMember" parameterType="_int" >
   		DELETE
   		FROM		MEMBER

@@ -40,5 +40,4 @@ public class ClassicPageExplorer extends PageExplorer {
 
         return pagenation.toString();
     }
-	
 }

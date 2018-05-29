@@ -40,41 +40,40 @@ public class CommunityController {
 	public String viewInitListPage(HttpSession session) {
 		session.removeAttribute("__SEARCH__");
 		return "redirect:/";
-		
 	}
+	
 	@RequestMapping("/")
 	public ModelAndView viewListPage(CommunitySearchVO communitySearchVO, HttpSession session) {
 			//데이터가 안넘어 왔을 경우
-		// 1. 리스트페이지에서 처음 접근했을 떄 
-		//2. 글 내용을 보고 , 목록보기 링크를 클릭했을 때 
+		// 1. 리스트페이지에서 처음 접근했을 떄
+		//2. 글 내용을 보고 , 목록보기 링크를 클릭했을 때
 		if( communitySearchVO.getPageNo() < 0) {
-			//session에 저장된 CommunitSeacrchVO 를 가져옴. 
-			
+			//session에 저장된 CommunitSeacrchVO 를 가져옴.
+
 			communitySearchVO = (CommunitySearchVO) session.getAttribute("__SEARCH__");
-			//session에 저장된 CommunitSeacrchVO 가 없을경우 pageNo=0으로 초기화 
+			//session에 저장된 CommunitSeacrchVO 가 없을경우 pageNo=0으로 초기화
 			if (communitySearchVO == null) {
 				communitySearchVO = new CommunitySearchVO();
 				communitySearchVO.setPageNo(0);
 			}
-			
+
 		}
 		session.setAttribute("__SEARCH__", communitySearchVO);
-		
-		
+
+
 		ModelAndView view = new ModelAndView();
 
 		// if (session.getAttribute(Member.USER) == null) {
 		// // /WEB-INF/view/community/list.jsp
 		// return new ModelAndView("redirect:/login");
 		// }
-		
-		
+
 		view.setViewName("community/list");
 		view.addObject("search", communitySearchVO); // 내가 검색을 무엇으로 했는지 알려줌 .
 		PageExplorer pageExplorer = communityService.getAll(communitySearchVO);
 
 		view.addObject("pageExplorer", pageExplorer);
-	
+
 		return view;
 	}
 
@@ -128,7 +127,7 @@ public class CommunityController {
 		boolean isSuccess = communityService.createCommunity(communityVO); // 이것좀 만들어봐
 
 		if (isSuccess) {
-			return new ModelAndView("redirect:/reset");
+		return new ModelAndView("redirect:/reset");
 		}
 		return new ModelAndView("redirect:/write");
 	}
@@ -144,10 +143,15 @@ public class CommunityController {
 	public String doDeleteAction(HttpSession session, @PathVariable int id,
 								@RequestAttribute ActionHistoryVO actionHistory) {
 		CommunityVO community = communityService.getOne(id);
+
 		MemberVO member = (MemberVO) session.getAttribute(Member.USER);
+
 		actionHistory.setReqType(ActionHistory.ReqType.COMMUNITY);
+
 		String log = String.format(ActionHistory.Log.DELETE, member.getId(), community.getTitle(),community.getBody());
+
 		actionHistory.setLog(log);
+
 		// session object타입
 		// 리턴타입이 달라서 MemberVO타입으로명시적 형변환
 		// 상속 구현관계일때만 캐스팅이가능
@@ -164,9 +168,9 @@ public class CommunityController {
 		CommunityVO community = communityService.getOne(id);
 		MemberVO member = (MemberVO) session.getAttribute(Member.USER);
 		actionHistory.setReqType(ActionHistory.ReqType.COMMUNITY);
-		
+
 		String log = String.format(ActionHistory.Log.UPDATE,  member.getId(), community.getTitle(), community.getBody());
-		
+
 		actionHistory.setLog(log);
 
 		int userId = member.getId();
@@ -198,7 +202,7 @@ public class CommunityController {
 		if (errors.hasErrors()) {
 			return "redirect:/modify/" + id;
 		}
-	
+
 
 		CommunityVO newCommunity = new CommunityVO();
 		newCommunity.setId(originalVO.getId());
@@ -207,7 +211,7 @@ public class CommunityController {
 
 		String asIs="";
 		String toBe="";
-		
+
 		// 1. IP변경확인
 		String ip = request.getRemoteAddr();
 		if (!ip.equals(originalVO.getrequestIp())) {
@@ -278,16 +282,16 @@ public class CommunityController {
 	@RequestMapping("/read/{id}")
 	public String incrementViewCountFunc(@PathVariable int id, HttpSession session,
 										@RequestAttribute ActionHistoryVO actionHistory) {
-		
+
 		CommunityVO community = communityService.getOne(id);
 		MemberVO member = (MemberVO) session.getAttribute(Member.USER);
 		actionHistory.setReqType(ActionHistory.ReqType.COMMUNITY);
-		
+
 		String log = String.format(ActionHistory.Log.READ,  member.getId(), community.getTitle(), community.getBody());
-		
+
 		actionHistory.setLog(log);
-		
-		
+
+
 		if (communityService.incrementVC(id)) {
 			return "redirect:/view/" + id;
 		}
@@ -297,11 +301,11 @@ public class CommunityController {
 	@RequestMapping("/recommend/{id}")
 	public String recommendCount(@PathVariable int id,
 									@RequestAttribute ActionHistoryVO actionHistory) {
-		
+
 		actionHistory.setReqType(ActionHistory.ReqType.COMMUNITY);
 		String log = String.format(ActionHistory.Log.RECOMMEND, id);
 		actionHistory.setLog(log);
-		
+
 		communityService.incrementRC(id);
 
 		return "redirect:/view/" + id;

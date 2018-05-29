@@ -7,28 +7,27 @@
 			class="com.ktds.community.web.CommunityController">
 		<property name="communityService"  ref="communityService"></property>
 	</bean>
-	
-	
+
+
 	<bean id="memberController"
 			class="com.ktds.member.web.MemberController">
 			<property name="memberService"  ref="memberService"></property>
 			<property name="communityService"  ref="communityService"></property>
 	</bean>
-	
+
 	<bean id="myPageController"
 			class="com.ktds.member.web.MypageController">
 			<property name="memberService"  ref="memberService"></property>
 			<property name="communityService"  ref="communityService"></property>
 	</bean>
-	
+
 	<bean id="replyController"
 		  class="com.ktds.reply.web.ReplyController">
-			<property name="replyService" ref="replyService"></property>		  
+			<property name="replyService" ref="replyService"></property>
     </bean>
-    
+
     <bean id="actionHistoryController"
     		class="com.ktds.actionhistory.web.ActionHistoryController">
     		<property name="actionHistoryService" ref="actionHistoryService"> </property>
-    
     </bean>
 </beans>

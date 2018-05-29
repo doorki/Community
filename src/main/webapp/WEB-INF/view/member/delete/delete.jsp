@@ -13,9 +13,9 @@
 <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/delete.css"/>"/>
 <script type="text/javascript" src="<c:url value="/static/js/jquery-3.3.1.min.js"/>"></script>
 <script type="text/javascript">
-	
+
 	$().ready(function(){
-		
+
 	$("#moveLoginBtn").click(function(){
 		location.href="<c:url value="/login" />";
 		});
@@ -25,15 +25,15 @@
 	<body>
 <div id="wrapper">
 		<jsp:include page="/WEB-INF/view/template/menu.jsp"/>
-		
+
 		<div id="progress">
 			<ul>
 				<li class="active">본인확인</li>
 				<li class="active">게시글 삭제</li>
-				<li class="actice">탈퇴 완료</li>
+				<li class="active">탈퇴 완료</li>
 			</ul>
 		</div>
-		
+
 		<div id="box">
 			<p style="text-align:center;">
 				탈퇴처리가 완료되었습니다.
@@ -41,12 +41,12 @@
 			<p style="text-align:center;">
 				그동안 이용해 주셔서 감사합니다.
 			</p>
-		
+
 			<div style="text-align:center;">
 				<div id ="moveLoginBtn" class="button">로그인 페이지로 이동.</div>
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 </html>

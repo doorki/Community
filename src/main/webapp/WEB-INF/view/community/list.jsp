@@ -35,7 +35,7 @@
 				<th>작성일</th>
 				<th>조회수</th>
 			</tr>
-		<c:forEach items="${pageExplorer.list}" var="community">
+	<c:forEach items="${pageExplorer.list}" var="community">
 			<tr>
 				<td>${community.id}</td> <!-- td는 글자가 모두 left -->
 				
@@ -63,9 +63,9 @@
 				<td>${community.viewCount}</td>
 			</tr>
 		
-		
 		</c:forEach>
-		<c:if test="${empty pageExplorer.list}"><!-- 비어있으면  안비어 있으면 not empty-->
+		
+		<c:if test="${empty pageExplorer.list}">
 			<tr>
 				<td colspan="5">등록된 게시글이 없습니다.</td>
 			</tr>

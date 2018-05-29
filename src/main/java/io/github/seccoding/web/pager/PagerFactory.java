@@ -1,5 +1,6 @@
 package io.github.seccoding.web.pager;
 
+
 public class PagerFactory {
 
 	public static Pager getPager(boolean isDbOracle) {

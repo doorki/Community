@@ -1,5 +1,6 @@
 package io.github.seccoding.web.pager;
 
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,25 +14,27 @@ public abstract class Pager {
 	public static final boolean ORACLE = true;
 	public static final boolean OTHER = false;
 	
-	private int totalArticleCount; //전체 게시글의 수 
+	//전체 게시글 개수
+	private int totalArticleCount;
+	//한 페이지당나오는 게시글의 수
+	protected int printArticle;
+	//한 그룹당 몇개의 페이지네이션이 있냐
+	public int printPage;
 
-	protected int printArticle; // 한 페이지당 나오는 게시글의 수 
-	public int printPage; //한 그룹당 몇개의 페이지가 나오는지.? 
-
-	protected int startArticleNumber;  // 게시글의 시작번호 
-	protected int endArticleNumber; 	// 게시글의 끝번호 
+	protected int startArticleNumber;
+	protected int endArticleNumber;
 
 	public int totalPage;
-	public int totalGroup; 
+	public int totalGroup;
 
 	public int nowGroupNumber;
 
 	public int groupStartPage;
 
-	public int nextGroupPageNumber; // 다음 그룹의 페이지수 
-	public int prevGroupPageNumber; // 이전 그룹의 페이지수 .
+	public int nextGroupPageNumber;
+	public int prevGroupPageNumber;
 
-	public int pageNo; // 내가 보고싶은 페이지 번호 .
+	public int pageNo;
 	
 	/**
 	 * Paging 객체를 얻어온다.
@@ -76,7 +79,7 @@ public abstract class Pager {
 		this.prevGroupPageNumber = this.groupStartPage - this.printPage - 1;
 	}
 	
-	protected abstract void computeArticleNumbers();  // 첫번째와 마지막 페이지 게시글 번호를 구함.
+	protected abstract void computeArticleNumbers();
 	
 	/**
 	 * 조회하려는 조건(Query)의 총 게시물 수를 정의한다.

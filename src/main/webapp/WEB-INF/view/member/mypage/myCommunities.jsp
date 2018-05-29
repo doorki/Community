@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%> 
  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -16,16 +16,16 @@
 			var checkbox = $("input[type=checkbox][name=delete]");
 		/* 	일괄변경
 			checkbox.prop("checked",checked); */
-			//선택반전 
+			//선택반전
 			checkbox.each(function(index, checkbox){
-				
+
 				var checked = $(checkbox).prop("checked");
 				$(checkbox).prop("checked",!checked);
 			});
 		});
-		
+
 		$("input[type=checkbox][name=delete]").change(function(){
-			var checkedLength = 
+			var checkedLength =
 				$("input[type=checkbox][name=delete]:checked").length;
 			var checkboxLength =
 				$("input[type=checkbox][name=delete]").length;
@@ -35,9 +35,9 @@
 			}
 			else{
 				 $("#toggle").prop("checked", false);
-			}		
+			}
 		});
-		
+
 		$("#massDeleteBtn").click(function(){
 			$("#massDeleteForm").attr({
 				"method" : "post",
@@ -45,12 +45,12 @@
 			}).submit();
 		});
 	});
-	
-</script> 		
+
+</script>
 </head>
 <body>
 	<div id="popup-wrapper">
-	
+
 		<h1 class="title">나의 추억들</h1>
 		<div>
 			<table class="grid" style="width:100%">
@@ -58,7 +58,7 @@
 					<col style="width:5%"/>
 					<col style="width:90%"/>
 					<col style="width:5%"/>
-				</colgroup>	
+				</colgroup>
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -76,21 +76,21 @@
 							<td>${community.title }</td>
 							<td>
 								<input  type="checkbox"
-										name="delete"
-										value="${community.id }"/>
+    										name="delete"
+    										value="${community.id }"/>
 							</td>
 						</tr>
 					</c:forEach>
 					</form>
-				</tbody>		
+				</tbody>
 				<tfoot>
 					<tr>
 						<td colspan ="3">
-							<input type="button" 
+							<input type="button"
 									id="massDeleteBtn" value="일괄삭제"/>
 						</td>
 					</tr>
-				</tfoot>		
+				</tfoot>
 			</table>
 		</div>
 	</div>

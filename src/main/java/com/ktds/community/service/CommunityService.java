@@ -23,7 +23,6 @@ public interface CommunityService {
 
 	public void incrementRC(int id);
 
-
 	public boolean deleteCommunity(int id);
 	
 	public boolean deleteCommunities(List<Integer> ids, int userId);
